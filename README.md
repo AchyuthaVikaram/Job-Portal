@@ -37,6 +37,9 @@ JobHunt is a responsive, MERN-based web application designed to connect students
   - **Model:** MongoDB with Mongoose schemas for users, jobs, and applications.
   - **View:** Entirely managed by React on the client-side.
   - **Controller:** Express.js handles API routes, authentication, and business logic.
+### Deployment
+ -I've deployed this JobHunt on Render :  [ here you can visit it](https://jobhunt-i0im.onrender.com)
+  
 ### Collaborations
   Any suggestions or pull requests can be made.
   
