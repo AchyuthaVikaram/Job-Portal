@@ -1,0 +1,38 @@
+.custom-arrow {
+    background-color: black; /* Make the carousel arrows black */
+    width: 30px;
+    height: 30px;
+  }
+  
+  .custom-arrow:after {
+    content: '';
+    background-color: black;
+  }
+  
+  .custom-carousel .carousel-control-prev-icon,
+  .custom-carousel .carousel-control-next-icon {
+    filter: brightness(0); /* Ensure the arrows are completely black */
+  }
+  
+  .custom-carousel .carousel-control-prev,
+  .custom-carousel .carousel-control-next {
+    width: 5%; /* Adjust size of arrow area if needed */
+  }
+  
+  .custom-carousel .carousel-indicators {
+    bottom: 10px; /* Margin for dots below the buttons */
+  }
+  
+  .custom-button {
+    background-color: #3d3d3d; /* Light black background for buttons */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    margin-bottom: 30px; /* Space between button and carousel dots */
+  }
+  
+  .custom-button:hover {
+    background-color: #5a5a5a; /* Darker black on hover */
+  }
+  
