@@ -105,7 +105,6 @@ cd client && npm run dev
 6. **Access the Application**
 - **Frontend:** http://localhost:5173
 - **Backend API:** http://localhost:3000/api/v1
-- **API Documentation:** http://localhost:3000/api/docs
 
 ## 🔧 Environment Variables
 
@@ -180,44 +179,6 @@ curl -X POST "http://localhost:3000/api/v1/job/post" \
 
 ## 🚀 Deployment Guide
 
-### **Deploy to Render**
-
-1. **Connect Repository**
-   - Link your GitHub repository to Render
-   - Set up auto-deploy from main branch
-
-2. **Configure Environment**
-   ```env
-   NODE_ENV=production
-   MONGO_URL=your_production_mongodb_url
-   SECRET_KEY=your_production_jwt_secret
-   ```
-
-3. **Build Settings**
-   ```bash
-   # Build Command
-   npm run build
-   
-   # Start Command  
-   npm start
-   ```
-
-### **Deploy to Other Platforms**
-
-#### **Heroku**
-```bash
-heroku create your-app-name
-heroku config:set NODE_ENV=production
-heroku config:set MONGO_URL=your_mongodb_url
-git push heroku main
-```
-
-#### **Docker Deployment**
-```dockerfile
-# Dockerfile included in repository
-docker build -t jobportal .
-docker run -p 3000:3000 jobportal
-```
 
 ## 🎯 Assignment Compliance
 
@@ -341,5 +302,6 @@ client/src/
 ---
 
 **🚀 Ready to revolutionize job hunting? [Visit JobPortal Live](https://jobhunt-i0im.onrender.com)**
+### NOTE : It is not deployed completey , make sure to run it on your local machine to experince the real taste of it ***
 
 *Built with ❤️ by Vikaram Achyutha*
