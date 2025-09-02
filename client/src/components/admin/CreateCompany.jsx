@@ -52,7 +52,7 @@ function CreateCompany() {
 					variant="outlined"
 					value={name}
 					className="mb-2"
-					placeholder="JobHunt, Microsoft etc."
+					placeholder="JobPortal, Microsoft etc."
 					onChange={(event) => setCompanyName(event.target.value)}
 				/>
 

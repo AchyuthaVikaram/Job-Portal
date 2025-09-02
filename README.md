@@ -1,4 +1,4 @@
-# 🚀 JobHunt - Advanced Job Board Platform
+# 🚀 JobPortal - Advanced Job Board Platform
 
 > **A comprehensive, production-ready MERN stack job board application that connects talented developers with innovative employers. Built with modern technologies, robust security, and exceptional user experience.**
 
@@ -66,8 +66,8 @@ npm >= 8.0.0
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/jobhunt.git
-cd jobhunt
+git clone https://github.com/your-username/jobportal.git
+cd jobportal
 ```
 
 2. **Install dependencies**
@@ -114,7 +114,7 @@ cd client && npm run dev
 ### **Server (.env)**
 ```env
 # Database Configuration
-MONGO_URL=mongodb://localhost:27017/jobhunt
+MONGO_URL=mongodb://localhost:27017/jobportal
 
 # JWT Configuration  
 SECRET_KEY=your_super_secure_jwt_secret_key_here
@@ -217,8 +217,8 @@ git push heroku main
 #### **Docker Deployment**
 ```dockerfile
 # Dockerfile included in repository
-docker build -t jobhunt .
-docker run -p 3000:3000 jobhunt
+docker build -t jobportal .
+docker run -p 3000:3000 jobportal
 ```
 
 ## 🎯 Assignment Compliance
@@ -333,10 +333,10 @@ client/src/
 ## 📞 Support & Contact
 
 ### **Getting Help**
-- 📧 **Email:** support@jobhunt.com
-- 💬 **Discord:** [Join our community](https://discord.gg/jobhunt)
-- 📖 **Documentation:** [Full API docs](https://docs.jobhunt.com)
-- 🐛 **Issues:** [GitHub Issues](https://github.com/your-username/jobhunt/issues)
+- 📧 **Email:** support@jobportal.com
+- 💬 **Discord:** [Join our community](https://discord.gg/jobportal)
+- 📖 **Documentation:** [Full API docs](https://docs.jobportal.com)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/your-username/jobportal/issues)
 
 ### **Interview Talking Points**
 
@@ -348,6 +348,6 @@ client/src/
 
 ---
 
-**🚀 Ready to revolutionize job hunting? [Visit JobHunt Live](https://jobhunt-i0im.onrender.com)**
+**🚀 Ready to revolutionize job hunting? [Visit JobPortal Live](https://jobhunt-i0im.onrender.com)**
 
 *Built with ❤️ by developers, for developers*

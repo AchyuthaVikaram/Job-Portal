@@ -1,21 +1,22 @@
-import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { v2 as cloudinary } from 'cloudinary';
+import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
-// Configure Cloudinary API keys
 cloudinary.config({
-	cloud_name: process.env.CLOUD_NAME,
-	api_key: process.env.CLOUD_API_KEY,
-	api_secret: process.env.CLOUD_API_SECRET,
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Define the storage configuration
 const storage = new CloudinaryStorage({
 	cloudinary: cloudinary,
-	params: {
-		folder: "jobHunt_dev", // Folder in Cloudinary where files will be stored
-		allowedFormats: ["png", "jpg", "jpeg", "pdf", "doc", "docx", "rtf"], // Allowed formats for profile photos and resumes
+	params: async (req, file) => {
+		return {
+			folder: "jobPortal_dev", // Folder in Cloudinary where files will be stored
+			allowed_formats: ["jpg", "png", "pdf"],
+			resource_type: "auto",
+		};
 	},
 });
 
-// Export cloudinary and storage for use in other parts of the app
-export { cloudinary, storage };
+export { storage };
