@@ -2,8 +2,6 @@
 
 > **A comprehensive, production-ready MERN stack job board application that connects talented developers with innovative employers. Built with modern technologies, robust security, and exceptional user experience.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue?style=for-the-badge)](https://jobhunt-i0im.onrender.com)
-[![GitHub Actions](https://img.shields.io/badge/CI%2FCD-Automated-green?style=for-the-badge)](https://github.com)
 
 ## ✨ Key Features
 
@@ -330,13 +328,7 @@ client/src/
 - **Prettier** - Code formatting
 - **Conventional Commits** - Standardized commit messages
 
-## 📞 Support & Contact
 
-### **Getting Help**
-- 📧 **Email:** support@jobportal.com
-- 💬 **Discord:** [Join our community](https://discord.gg/jobportal)
-- 📖 **Documentation:** [Full API docs](https://docs.jobportal.com)
-- 🐛 **Issues:** [GitHub Issues](https://github.com/your-username/jobportal/issues)
 
 ### **Interview Talking Points**
 
@@ -350,4 +342,4 @@ client/src/
 
 **🚀 Ready to revolutionize job hunting? [Visit JobPortal Live](https://jobhunt-i0im.onrender.com)**
 
-*Built with ❤️ by developers, for developers*
+*Built with ❤️ by Vikaram Achyutha*
