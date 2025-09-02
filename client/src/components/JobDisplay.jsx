@@ -1,10 +1,86 @@
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import Avatar from "@mui/joy/Avatar";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { USER_END_POINT } from "../utils/constant";
+import { useFlashMessage } from "../utils/flashMessageContext";
+
 function JobDisplay({ job }) {
 	const jobId = job?._id;
+	const user = useSelector((store) => store.auth.user);
+	const navigate = useNavigate();
+	const { showMessage } = useFlashMessage();
+	const [isSaved, setIsSaved] = useState(false);
+	const [saving, setSaving] = useState(false);
+
+	// Check if job is saved on component mount
+	useEffect(() => {
+		const checkIfSaved = async () => {
+			if (user) {
+				try {
+					const res = await axios.get(`${USER_END_POINT}/saved-jobs`, {
+						withCredentials: true,
+					});
+					if (res.data.success) {
+						const savedJobIds = res.data.savedJobs.map(job => job._id);
+						setIsSaved(savedJobIds.includes(jobId));
+					}
+				} catch (error) {
+					console.log("Error checking saved status:", error);
+				}
+			}
+		};
+
+		checkIfSaved();
+	}, [jobId, user?._id]);
+
+	const handleSaveJob = async (e) => {
+		e.preventDefault(); // Prevent event bubbling
+		e.stopPropagation(); // Prevent parent click events
+		
+		if (!user) {
+			showMessage("error", "Please login to save jobs");
+			navigate('/login');
+			return;
+		}
+
+		setSaving(true);
+		try {
+			if (isSaved) {
+				// Unsave job
+				const res = await axios.delete(`${USER_END_POINT}/unsave-job/${jobId}`, {
+					withCredentials: true,
+				});
+				if (res.data.success) {
+					setIsSaved(false);
+					showMessage("success", "Job removed from saved jobs");
+				}
+			} else {
+				// Save job
+				const res = await axios.post(`${USER_END_POINT}/save-job/${jobId}`, {}, {
+					withCredentials: true,
+				});
+				if (res.data.success) {
+					setIsSaved(true);
+					showMessage("success", "Job saved successfully");
+				}
+			}
+		} catch (error) {
+			console.log(error);
+			if (error.response) {
+				showMessage("error", error.response.data.message);
+			} else {
+				showMessage("error", "An unexpected error occurred.");
+			}
+		} finally {
+			setSaving(false);
+		}
+	};
 
 	// Helper function to calculate days ago
 	const daysAgoFunction = (mongodbTime) => {
@@ -28,7 +104,17 @@ function JobDisplay({ job }) {
 						? "Today"
 						: `${daysAgoFunction(job?.createdAt)} days ago`}
 				</span>
-				<BookmarkIcon className="text-gray-400 hover:text-gray-600 cursor-pointer" />
+				<button
+					onClick={handleSaveJob}
+					disabled={saving}
+					className="text-gray-400 hover:text-yellow-500 cursor-pointer transition-colors duration-200"
+				>
+					{isSaved ? (
+						<BookmarkIcon className="text-yellow-500" />
+					) : (
+						<BookmarkBorderIcon />
+					)}
+				</button>
 			</div>
 
 			<div className="flex items-center mb-4">
@@ -83,12 +169,15 @@ function JobDisplay({ job }) {
 				</Link>
 				<Button
 					variant="outlined"
+					onClick={handleSaveJob}
+					disabled={saving}
+					startIcon={isSaved ? <BookmarkIcon /> : <BookmarkBorderIcon />}
 					sx={{
-						borderColor: "#d1d5db",
-						color: "#6b7280",
+						borderColor: isSaved ? "#f59e0b" : "#d1d5db",
+						color: isSaved ? "#f59e0b" : "#6b7280",
 						'&:hover': {
-							borderColor: "#9ca3af",
-							backgroundColor: "#f9fafb",
+							borderColor: isSaved ? "#d97706" : "#9ca3af",
+							backgroundColor: isSaved ? "#fef3c7" : "#f9fafb",
 						},
 						textTransform: "none",
 						borderRadius: "8px",
@@ -96,7 +185,7 @@ function JobDisplay({ job }) {
 						minWidth: "120px",
 					}}
 				>
-					Save
+					{saving ? "..." : (isSaved ? "Saved" : "Save")}
 				</Button>
 			</div>
 		</motion.div>

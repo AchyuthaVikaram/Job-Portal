@@ -12,15 +12,21 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import axios from "axios";
+import { JOB_END_POINT } from "../../utils/constant";
+import { useFlashMessage } from "../../utils/flashMessageContext";
 
 export default function JobsTable({ allJobsByAdmin, setAllJobsByAdmin }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [selectedJob, setSelectedJob] = React.useState(null);
+	const [deleting, setDeleting] = React.useState(false);
 	const input = useSelector((store) => store.filterJob.filterJob);
 	const [filteredJobs, setFilterdJobs] = React.useState(allJobsByAdmin);
+	const { showMessage } = useFlashMessage();
 
 	React.useEffect(() => {
 		if (input) {
@@ -34,6 +40,7 @@ export default function JobsTable({ allJobsByAdmin, setAllJobsByAdmin }) {
 			setFilterdJobs(allJobsByAdmin); // Show all companies when input is empty
 		}
 	}, [input, allJobsByAdmin]);
+
 	const handleClick = (event, job) => {
 		setAnchorEl(event.currentTarget);
 		setSelectedJob(job);
@@ -42,6 +49,33 @@ export default function JobsTable({ allJobsByAdmin, setAllJobsByAdmin }) {
 	const handleClose = () => {
 		setAnchorEl(null);
 		setSelectedJob(null);
+	};
+
+	const handleDeleteJob = async () => {
+		if (!selectedJob) return;
+		
+		setDeleting(true);
+		try {
+			const res = await axios.delete(`${JOB_END_POINT}/delete/${selectedJob._id}`, {
+				withCredentials: true,
+			});
+			
+			if (res.data.success) {
+				// Remove the deleted job from the list
+				setAllJobsByAdmin(prev => prev.filter(job => job._id !== selectedJob._id));
+				showMessage("success", "Job deleted successfully");
+			}
+		} catch (error) {
+			console.error("Error deleting job:", error);
+			if (error.response) {
+				showMessage("error", error.response.data.message || "Failed to delete job");
+			} else {
+				showMessage("error", "An unexpected error occurred");
+			}
+		} finally {
+			setDeleting(false);
+			handleClose();
+		}
 	};
 
 	const open = Boolean(anchorEl);
@@ -106,36 +140,30 @@ export default function JobsTable({ allJobsByAdmin, setAllJobsByAdmin }) {
 													horizontal: "left",
 												}}
 											>
-												<Typography sx={{ p: 2 }}>
+												<div className="p-2 space-y-2 min-w-[200px]">
 													<Link to={`/admin/jobs/${selectedJob?._id}`}>
-														<div className="flex  items-center gap-2 cursor-pointer hover:opacity-100">
-															<EditIcon
-																sx={{
-																	width: "20px",
-																	marginRight: "0.25rem",
-																	opacity: "0.7",
-																	"&:hover": { opacity: "1" },
-																}}
-															/>
+														<div className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer">
+															<EditIcon sx={{ width: "20px" }} />
 															<span>Edit</span>
 														</div>
 													</Link>
 													<Link
 														to={`/admin/jobs/${selectedJob?._id}/applicants`}
 													>
-														<div className="flex  items-center gap-2 cursor-pointer hover:opacity-100">
-															<RemoveRedEyeIcon
-																sx={{
-																	width: "20px",
-																	marginRight: "0.25rem",
-																	opacity: "0.7",
-																	"&:hover": { opacity: "1" },
-																}}
-															/>
-															<span>Applicants</span>
+														<div className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer">
+															<RemoveRedEyeIcon sx={{ width: "20px" }} />
+															<span>View Applications</span>
 														</div>
 													</Link>
-												</Typography>
+													<button
+														onClick={handleDeleteJob}
+														disabled={deleting}
+														className="flex items-center gap-2 p-2 hover:bg-red-50 rounded cursor-pointer w-full text-left text-red-600 disabled:opacity-50"
+													>
+														<DeleteIcon sx={{ width: "20px" }} />
+														<span>{deleting ? "Deleting..." : "Delete"}</span>
+													</button>
+												</div>
 											</Popover>
 										</TableCell>
 									</TableRow>
