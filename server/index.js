@@ -13,7 +13,7 @@ dotenv.config({});
 
 const corsOptions={
     origin: process.env.NODE_ENV === 'production' 
-        ? [process.env.CLIENT_URL || "https://jobhunt-i0im.onrender.com"] 
+        ? ["https://job-portal-livid-eight.vercel.app", "https://jobhunt-i0im.onrender.com"] 
         : ["http://localhost:5173", "http://localhost:3000"],
     credentials: true,
 }
