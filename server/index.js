@@ -12,7 +12,9 @@ import path from "path";
 dotenv.config({});
 
 const corsOptions={
-    origin:"https://jobhunt-i0im.onrender.com",
+    origin: process.env.NODE_ENV === 'production' 
+        ? ["https://jobhunt-i0im.onrender.com"] 
+        : ["http://localhost:5173", "http://localhost:3000"],
     credentials: true,
 }
 

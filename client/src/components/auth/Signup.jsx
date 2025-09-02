@@ -110,136 +110,203 @@ function Signup() {
 	};
 
 	return (
-		<div>
-			<h1 className="text-xl font-bold text-[#6A38C2] text-center">
-				Register for JobPortal
-			</h1>
-			<div className="flex justify-center items-center max-w-7xl mx-auto">
-				<form
-					className="sm:w-[100%] md:w-[50%] p-4 pb-0"
-					onSubmit={handleSubmit}
-					noValidate
-					encType="multipart/form-data"
-				>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							required
-							id="fullname"
-							name="fullname"
-							label="Full Name"
-							type="text"
-							fullWidth
-							variant="outlined"
-							onChange={handleInputChange}
-							value={inpObj.fullname}
-							error={!!errors.fullname}
-							helperText={errors.fullname}
-						/>
-					</div>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							required
-							fullWidth
-							id="email"
-							name="email"
-							label="Email"
-							type="email"
-							variant="outlined"
-							value={inpObj.email}
-							onChange={handleInputChange}
-							error={!!errors.email}
-							helperText={errors.email}
-						/>
-					</div>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							required
-							fullWidth
-							id="password"
-							name="password"
-							label="Password"
-							type="password"
-							variant="outlined"
-							onChange={handleInputChange}
-							value={inpObj.password}
-							error={!!errors.password}
-							helperText={errors.password}
-						/>
-					</div>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							fullWidth
-							id="file"
-							name="file"
-							label="Profile Photo"
-							type="file"
-							variant="outlined"
-							onChange={changeFileHandler}
-						/>
-					</div>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							required
-							fullWidth
-							id="phno"
-							name="phno"
-							label="Phone Number"
-							type="tel"
-							variant="outlined"
-							onChange={handleInputChange}
-							value={inpObj.phno}
-							error={!!errors.phno}
-							helperText={errors.phno}
-						/>
-					</div>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							fullWidth
-							required
-							id="role"
-							select
-							name="role"
-							value={inpObj.role}
-							onChange={handleInputChange}
-							label="Role"
-							error={!!errors.role}
-							helperText={errors.role}
-						>
-							<MenuItem key="Student" value="student">
-								Student
-							</MenuItem>
-							<MenuItem key="Recruiter" value="recruiter">
-								Recruiter
-							</MenuItem>
-						</TextField>
-					</div>
+		<div className="min-h-screen flex items-center justify-center px-4 py-8 bg-gray-50">
+			<div className="max-w-md w-full space-y-8">
+				<div className="text-center">
+					<h1 className="text-3xl font-bold text-purple-600 mb-2">
+						Create Account
+					</h1>
+					<p className="text-gray-600">Join JobPortal to find your dream job</p>
+				</div>
+				
+				<div className="bg-white rounded-lg shadow-md p-8">
+					<form onSubmit={handleSubmit} noValidate encType="multipart/form-data" className="space-y-6">
+						<div>
+							<TextField
+								required
+								id="fullname"
+								name="fullname"
+								label="Full Name"
+								type="text"
+								fullWidth
+								variant="outlined"
+								onChange={handleInputChange}
+								value={inpObj.fullname}
+								error={!!errors.fullname}
+								helperText={errors.fullname}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							/>
+						</div>
+						
+						<div>
+							<TextField
+								required
+								fullWidth
+								id="email"
+								name="email"
+								label="Email"
+								type="email"
+								variant="outlined"
+								value={inpObj.email}
+								onChange={handleInputChange}
+								error={!!errors.email}
+								helperText={errors.email}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							/>
+						</div>
+						
+						<div>
+							<TextField
+								required
+								fullWidth
+								id="phno"
+								name="phno"
+								label="Phone Number"
+								type="tel"
+								variant="outlined"
+								onChange={handleInputChange}
+								value={inpObj.phno}
+								error={!!errors.phno}
+								helperText={errors.phno}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							/>
+						</div>
+						
+						<div>
+							<TextField
+								required
+								fullWidth
+								id="password"
+								name="password"
+								label="Password"
+								type="password"
+								variant="outlined"
+								onChange={handleInputChange}
+								value={inpObj.password}
+								error={!!errors.password}
+								helperText={errors.password}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							/>
+						</div>
+						
+						<div>
+							<TextField
+								fullWidth
+								id="file"
+								name="file"
+								label="Profile Photo (Optional)"
+								type="file"
+								variant="outlined"
+								onChange={changeFileHandler}
+								InputLabelProps={{ shrink: true }}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							/>
+						</div>
+						
+						<div>
+							<TextField
+								fullWidth
+								required
+								id="role"
+								select
+								name="role"
+								value={inpObj.role}
+								onChange={handleInputChange}
+								label="Role"
+								error={!!errors.role}
+								helperText={errors.role}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							>
+								<MenuItem value="student">Student</MenuItem>
+								<MenuItem value="recruiter">Recruiter</MenuItem>
+							</TextField>
+						</div>
 
-					<div className="m-4 flex justify-center" style={{ width: "100%" }}>
-						<Button
-							variant="text"
-							type="submit"
-							sx={{
-								width: "50%",
-								color: "white",
-								backgroundColor: "#6A38C2",
-								borderRadius: "0.5rem",
-								fontWeight: "bold",
-								"&:hover": {
-									backgroundColor: "#5b30a6",
-								},
-							}}
-						>
-							{loading ? <span>Please wait...</span> : <span>Register</span>}
-						</Button>
+						<div>
+							<Button
+								fullWidth
+								variant="contained"
+								type="submit"
+								sx={{
+									backgroundColor: "#9333ea",
+									color: "white",
+									borderRadius: "8px",
+									fontWeight: "600",
+									py: 1.5,
+									"&:hover": {
+										backgroundColor: "#7c3aed",
+									},
+								}}
+							>
+								{loading ? "Please wait..." : "Create Account"}
+							</Button>
+						</div>
+					</form>
+					
+					<div className="text-center mt-6">
+						<p className="text-gray-600">
+							Already have an account?{" "}
+							<Link to="/login" className="text-purple-600 hover:text-purple-800 font-medium">
+								Login here
+							</Link>
+						</p>
 					</div>
-				</form>
+				</div>
 			</div>
-			<p className="text-center text-small text-muted">
-				Already have an account?{" "}
-				<Link to="/login">
-					<span className="text-[#6A38C2] hover:underline">Login here</span>
-				</Link>
-			</p>
 		</div>
 	);
 }

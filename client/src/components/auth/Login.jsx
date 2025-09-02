@@ -93,96 +93,129 @@ function Login() {
 		}
 	}, []);
 	return (
-		<div>
-			<h1 className="text-xl font-bold text-[#6A38C2] text-center">
-				Welcome Back to JobPortal
-			</h1>
-			<div className="flex justify-center items-center max-w-7xl mx-auto">
-				<form className="sm:w-[100%] md:w-[50%]  sm:px-2 md:px-4 pt-4" onSubmit={handleSubmit} noValidate>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							required
-							fullWidth
-							id="email"
-							name="email"
-							label="Email"
-							type="email"
-							variant="outlined"
-							value={inpObj.email}
-							onChange={handleInputChange}
-							error={!!errors.email}
-							helperText={errors.email}
-						/>
-					</div>
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							required
-							fullWidth
-							id="password"
-							name="password"
-							label="Password"
-							type="password"
-							variant="outlined"
-							onChange={handleInputChange}
-							value={inpObj.password}
-							error={!!errors.password}
-							helperText={errors.password}
-						/>
-					</div>
+		<div className="min-h-screen flex items-center justify-center px-4 py-8 bg-gray-50">
+			<div className="max-w-md w-full space-y-8">
+				<div className="text-center">
+					<h1 className="text-3xl font-bold text-purple-600 mb-2">
+						Welcome Back
+					</h1>
+					<p className="text-gray-600">Sign in to your JobPortal account</p>
+				</div>
+				
+				<div className="bg-white rounded-lg shadow-md p-8">
+					<form onSubmit={handleSubmit} noValidate className="space-y-6">
+						<div>
+							<TextField
+								required
+								fullWidth
+								id="email"
+								name="email"
+								label="Email"
+								type="email"
+								variant="outlined"
+								value={inpObj.email}
+								onChange={handleInputChange}
+								error={!!errors.email}
+								helperText={errors.email}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							/>
+						</div>
+						
+						<div>
+							<TextField
+								required
+								fullWidth
+								id="password"
+								name="password"
+								label="Password"
+								type="password"
+								variant="outlined"
+								onChange={handleInputChange}
+								value={inpObj.password}
+								error={!!errors.password}
+								helperText={errors.password}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							/>
+						</div>
 
-					<div className="m-4" style={{ width: "100%" }}>
-						<TextField
-							fullWidth
-							required
-							id="role"
-							select
-							name="role"
-							value={inpObj.role}
-							onChange={handleInputChange}
-							label="Role"
-							error={!!errors.role}
-							helperText={errors.role}
-						>
-							<MenuItem key="Student" value="student">
-								{" "}
-								Student{" "}
-							</MenuItem>
-							<MenuItem key="Recruiter" value="recruiter">
-								{" "}
-								Recruiter{" "}
-							</MenuItem>
-						</TextField>{" "}
-					</div>
+						<div>
+							<TextField
+								fullWidth
+								required
+								id="role"
+								select
+								name="role"
+								value={inpObj.role}
+								onChange={handleInputChange}
+								label="Role"
+								error={!!errors.role}
+								helperText={errors.role}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											borderColor: '#9333ea',
+										},
+									},
+									'& .MuiInputLabel-root.Mui-focused': {
+										color: '#9333ea',
+									},
+								}}
+							>
+								<MenuItem value="student">Student</MenuItem>
+								<MenuItem value="recruiter">Recruiter</MenuItem>
+							</TextField>
+						</div>
 
-					<div className="m-4 flex justify-center" style={{ width: "100%" }}>
-						<Button
-							variant="text"
-							type="submit"
-							sx={{
-								width: "50%",
-								color: "white",
-								backgroundColor: "#6A38C2",
-								borderRadius: "0.5rem",
-								fontWeight: "bold",
-								"&:hover": {
-									backgroundColor: "#5b30a6",
-								},
-							}}
-						>
-							{loading ? <span>please wait..</span> : <span>Login</span>}
-						</Button>
+						<div>
+							<Button
+								fullWidth
+								variant="contained"
+								type="submit"
+								sx={{
+									backgroundColor: "#9333ea",
+									color: "white",
+									borderRadius: "8px",
+									fontWeight: "600",
+									py: 1.5,
+									"&:hover": {
+										backgroundColor: "#7c3aed",
+									},
+								}}
+							>
+								{loading ? "Please wait..." : "Login"}
+							</Button>
+						</div>
+					</form>
+					
+					<div className="text-center mt-6">
+						<p className="text-gray-600">
+							Don't have an account?{" "}
+							<Link to="/signup" className="text-purple-600 hover:text-purple-800 font-medium">
+								Sign up here
+							</Link>
+						</p>
 					</div>
-				</form>
+				</div>
 			</div>
-			<p className="text-center text-small text-muted">
-				Don't have an acount?{" "}
-				<Link to="/signup">
-					<span className="text-[#6A38C2] hover:underline">Signup here</span>
-				</Link>{" "}
-			</p>
-			<br /><br /><br /><br /><br />
 		</div>
-		
 	);
 }
 

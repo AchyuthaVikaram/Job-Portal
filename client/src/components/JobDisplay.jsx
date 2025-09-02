@@ -16,100 +16,87 @@ function JobDisplay({ job }) {
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, x: 100 }}
-			animate={{ opacity: 1, x: 0 }}
-			exit={{ opacity: 0, x: -100 }}
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			exit={{ opacity: 0, y: -20 }}
 			transition={{ duration: 0.3 }}
-			className="pl-3 py-3 rounded-md shadow-xl bg-white border border-gray-100"
+			className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200"
 		>
-			<div className="flex items-center justify-between">
-				<p className="text-muted">
+			<div className="flex items-center justify-between mb-4">
+				<span className="text-sm text-gray-500">
 					{daysAgoFunction(job?.createdAt) === 0
 						? "Today"
 						: `${daysAgoFunction(job?.createdAt)} days ago`}
-				</p>
-				<BookmarkIcon className="text-gray mr-3" />
+				</span>
+				<BookmarkIcon className="text-gray-400 hover:text-gray-600 cursor-pointer" />
 			</div>
 
-			<div className="flex items-center mx-3 mt-4 mb-3">
+			<div className="flex items-center mb-4">
 				<Avatar
 					alt={job?.company?.name}
 					src={job?.company?.logo || "default-logo.png"}
+					sx={{ width: 48, height: 48 }}
 				/>
-				<div className="px-3">
-					<h2>{job?.company?.name}</h2>
-					<p>India, {job?.location}</p>
+				<div className="ml-3">
+					<h3 className="font-semibold text-gray-900">{job?.company?.name}</h3>
+					<p className="text-sm text-gray-600">{job?.location}</p>
 				</div>
 			</div>
 
-			<div>
-				<h1 className="font-bold text-xl">{job?.title}</h1>
-				<p className="text-small text-muted my-3">{job?.description}</p>
+			<div className="mb-4">
+				<h2 className="font-bold text-lg text-gray-900 mb-2">{job?.title}</h2>
+				<p className="text-sm text-gray-600 line-clamp-2">{job?.description}</p>
 			</div>
 
-			<div className="flex">
-				<Button
-					size="small"
-					sx={{
-						color: "#1D4ED8",
-						borderRadius: "1rem",
-						padding: "0 10px",
-						fontWeight: "600",
-						marginRight: "0.5rem",
-					}}
-				>
+			<div className="flex flex-wrap gap-2 mb-6">
+				<span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
 					{job?.position} Positions
-				</Button>
-				<Button
-					size="small"
-					sx={{
-						color: "#F83002",
-						borderRadius: "1rem",
-						fontWeight: "600",
-						padding: "0 10px",
-						marginRight: "0.5rem",
-					}}
-				>
+				</span>
+				<span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
 					{job?.salary} LPA
-				</Button>
-				<Button
-					size="small"
-					sx={{
-						color: "#7209C7",
-						borderRadius: "1rem",
-						fontWeight: "600",
-						padding: "0 10px",
-						marginRight: "0.5rem",
-					}}
-				>
+				</span>
+				<span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
 					{job?.jobType}
-				</Button>
+				</span>
 			</div>
 
-			<div className="mt-3">
-				<Button
-					sx={{
-						backgroundColor: "#6A38C2",
-						color: "white",
-						textTransform: "none", // To ensure text is not uppercase
-					}}
+			<div className="flex flex-col sm:flex-row gap-3">
+				<Link
+					to={`/description/${jobId}`}
+					className="flex-1"
 				>
-					<Link
-						to={`/description/${jobId}`}
-						style={{ color: "white", textDecoration: "none" }} // Ensures link inherits button color
+					<Button
+						fullWidth
+						variant="contained"
+						sx={{
+							backgroundColor: "#9333ea",
+							'&:hover': {
+								backgroundColor: "#7c3aed",
+							},
+							textTransform: "none",
+							borderRadius: "8px",
+							py: 1.5,
+						}}
 					>
-						Details
-					</Link>
-				</Button>
-				&nbsp;&nbsp;&nbsp;&nbsp;
+						View Details
+					</Button>
+				</Link>
 				<Button
+					variant="outlined"
 					sx={{
-						backgroundColor: "#6A38C2",
-						color: "white",
+						borderColor: "#d1d5db",
+						color: "#6b7280",
+						'&:hover': {
+							borderColor: "#9ca3af",
+							backgroundColor: "#f9fafb",
+						},
 						textTransform: "none",
+						borderRadius: "8px",
+						py: 1.5,
+						minWidth: "120px",
 					}}
 				>
-					Save for later
+					Save
 				</Button>
 			</div>
 		</motion.div>

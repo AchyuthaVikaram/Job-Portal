@@ -22,14 +22,18 @@ function JobDescription() {
 				});
 				if (res.data.success) {
 					setJob(res.data.job);
-					setIsApplied(
-						res.data.job.applications.some(
-							(application) => application.applicant._id === user?._id
-						)
-					);
+					// Only check if applied when user is logged in
+					if (user) {
+						setIsApplied(
+							res.data.job.applications.some(
+								(application) => application.applicant._id === user._id
+							)
+						);
+					}
 				}
 			} catch (error) {
-				console.log(error);
+				console.log("Error fetching job details:", error);
+				// Handle error gracefully - job details should still be accessible
 			}
 		};
 
@@ -62,90 +66,84 @@ function JobDescription() {
 	};
 
 	return (
-		<div className="max-w-7xl mx-auto my-10 pl-5 pb-5">
-			<div className="flex  justify-between ">
-				<div>
-					<h1 className="font-bold text-xl">{job?.title}</h1>
-					<div className="flex items-center gap-2 mt-4 flex-wrap">
-						<Button
-							className="text-blue-700 m-3 p-0 px-1"
-							sx={{ borderRadius: "20rem", color: "blue" }}
-							variant="ghost"
-						>
-							{job?.position} Positions
-						</Button>
-						<Button
-							className="text-red-300 m-3 p-0 px-1"
-							sx={{ borderRadius: "20rem", color: "#F83002" }}
-							variant="ghost"
-						>
-							{job?.jobType}
-						</Button>
-						<Button
-							className="text-blue-100 m-3 p-0 px-1"
-							sx={{ borderRadius: "20rem", color: "#7209b7" }}
-							variant="ghost"
-						>
-							{job?.salary} LPA
-						</Button>
+		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+			<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8">
+				<div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
+					<div className="flex-1">
+						<h1 className="font-bold text-2xl md:text-3xl text-gray-900 mb-4">{job?.title}</h1>
+						<div className="flex items-center gap-3 flex-wrap">
+							<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+								{job?.position} Positions
+							</span>
+							<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+								{job?.jobType}
+							</span>
+							<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+								{job?.salary} LPA
+							</span>
+						</div>
+					</div>
+					<div className="flex-shrink-0">
+						{user ? (
+							<Button
+								className={`rounded-lg px-6 py-3 font-medium text-white ${
+									isApplied
+										? "bg-gray-600 cursor-not-allowed"
+										: "bg-purple-600 hover:bg-purple-700"
+								}`}
+								disabled={isApplied}
+								onClick={applyJobHandler}
+							>
+								{isApplied ? "Already Applied" : "Apply Now"}
+							</Button>
+						) : (
+							<Button
+								className="rounded-lg bg-black hover:bg-purple-700 text-white px-6 py-3 font-medium transition-colors duration-200"
+								onClick={() => window.location.href = '/login'}
+							>
+								Login to Apply
+							</Button>
+						)}
 					</div>
 				</div>
-				<Button
-					className={`rounded-lg ${
-						isApplied
-							? "bg-gray-600 cursor-not-allowed"
-							: "bg-dark hover:bg-[#5f32ad] text-white"
-					}`}
-					disabled={isApplied}
-					onClick={applyJobHandler}
-				>
-					{isApplied ? "Already Applied" : "Apply Now"}
-				</Button>
-			</div>
-			<h1 className="border-b-2 border-b-gray-300 font-medium py-4">
-				{job?.title}
-			</h1>
-			<div className="my-4">
-				<h1 className="font-bold my-2">
-					Role:{" "}
-					<span className="pl-4 font-normal text-gray-800">{job?.title}</span>
-				</h1>
-				<h1 className="font-bold my-2">
-					Location:{" "}
-					<span className="pl-4 font-normal text-gray-800">
-						{job?.location}
-					</span>
-				</h1>
-				<h1 className="font-bold my-2">
-					Description:{" "}
-					<span className="pl-4 font-normal text-gray-800">
-						{job?.description}
-					</span>
-				</h1>
-				<h1 className="font-bold my-2">
-					Experience:{" "}
-					<span className="pl-4 font-normal text-gray-800">
-						{job?.experience} yrs
-					</span>
-				</h1>
-				<h1 className="font-bold my-2">
-					Salary:{" "}
-					<span className="pl-4 font-normal text-gray-800">
-						{job?.salary} LPA
-					</span>
-				</h1>
-				<h1 className="font-bold my-2">
-					Total Applicants:{" "}
-					<span className="pl-4 font-normal text-gray-800">
-						{job?.applications?.length}
-					</span>
-				</h1>
-				<h1 className="font-bold my-2">
-					Posted Date:{" "}
-					<span className="pl-4 font-normal text-gray-800">
-						{job?.createdAt?.split("T")[0]}
-					</span>
-				</h1>
+				
+				<div className="mt-8 pt-6 border-t border-gray-200">
+					<h2 className="text-xl font-semibold text-gray-900 mb-6">Job Details</h2>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div className="space-y-4">
+							<div>
+								<h3 className="font-semibold text-gray-900 mb-1">Role</h3>
+								<p className="text-gray-700">{job?.title}</p>
+							</div>
+							<div>
+								<h3 className="font-semibold text-gray-900 mb-1">Location</h3>
+								<p className="text-gray-700">{job?.location}</p>
+							</div>
+							<div>
+								<h3 className="font-semibold text-gray-900 mb-1">Experience</h3>
+								<p className="text-gray-700">{job?.experience} years</p>
+							</div>
+							<div>
+								<h3 className="font-semibold text-gray-900 mb-1">Salary</h3>
+								<p className="text-gray-700">{job?.salary} LPA</p>
+							</div>
+						</div>
+						<div className="space-y-4">
+							<div>
+								<h3 className="font-semibold text-gray-900 mb-1">Total Applicants</h3>
+								<p className="text-gray-700">{job?.applications?.length || 0}</p>
+							</div>
+							<div>
+								<h3 className="font-semibold text-gray-900 mb-1">Posted Date</h3>
+								<p className="text-gray-700">{job?.createdAt?.split("T")[0]}</p>
+							</div>
+						</div>
+					</div>
+					<div className="mt-6">
+						<h3 className="font-semibold text-gray-900 mb-2">Description</h3>
+						<p className="text-gray-700 leading-relaxed">{job?.description}</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

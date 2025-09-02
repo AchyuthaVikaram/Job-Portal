@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server/index.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client",
-    "start": "nodemon server/index.js"
+    "start": "node server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.0",
     "multer": "^1.4.5-lts.1",

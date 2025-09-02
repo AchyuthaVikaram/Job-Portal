@@ -71,30 +71,69 @@ export const postJob = async (req, res) => {
 //for student
 export const getAllJobs = async (req, res) => {
 	try {
-		const { keyword } = req.query;
-		const query = {
-			$or: [
+		const { keyword, page = 1, limit = 10, location, salary, jobType } = req.query;
+		
+		let query = {};
+		
+		// Build search query
+		if (keyword && keyword.trim() !== '' && keyword.trim() !== ' ') {
+			query.$or = [
 				{ title: { $regex: keyword, $options: "i" } },
 				{ description: { $regex: keyword, $options: "i" } },
 				{ requirements: { $regex: keyword, $options: "i" } },
 				{ location: { $regex: keyword, $options: "i" } },
-				{skils:{$regex:keyword,$options:"i"}},
-			],
-		};
-		const jobs = await Job.find(query).populate({ path: "company" });
-		if (!jobs) {
-			return res.status(400).json({
-				message: "jobs not found",
-				success: false,
-			});
+			];
 		}
+		
+		// Add location filter
+		if (location && location.trim() !== '') {
+			query.location = { $regex: location, $options: "i" };
+		}
+		
+		// Add salary range filter
+		if (salary && salary.trim() !== '') {
+			const salaryRange = salary.toLowerCase();
+			if (salaryRange === '0-40k') {
+				query.salary = { $gte: 0, $lte: 40000 };
+			} else if (salaryRange === '41k-1lac') {
+				query.salary = { $gte: 41000, $lte: 100000 };
+			} else if (salaryRange === '1lac-5lac') {
+				query.salary = { $gte: 100000, $lte: 500000 };
+			}
+		}
+		
+		// Add job type filter (for industry/role)
+		if (jobType && jobType.trim() !== '') {
+			query.$or = query.$or || [];
+			query.$or.push(
+				{ title: { $regex: jobType, $options: "i" } },
+				{ jobType: { $regex: jobType, $options: "i" } }
+			);
+		}
+		
+		const skip = (parseInt(page) - 1) * parseInt(limit);
+		const totalJobs = await Job.countDocuments(query);
+		
+		const jobs = await Job.find(query)
+			.populate({ path: "company" })
+			.sort({ createdAt: -1 })
+			.skip(skip)
+			.limit(parseInt(limit));
+			
 		return res.status(200).json({
-			message: "jobs fetched",
+			message: "jobs fetched successfully",
 			jobs,
+			totalJobs,
+			currentPage: parseInt(page),
+			totalPages: Math.ceil(totalJobs / parseInt(limit)),
 			success: true,
 		});
 	} catch (e) {
 		console.log(e);
+		return res.status(500).json({
+			message: "Server error while fetching jobs",
+			success: false,
+		});
 	}
 };
 

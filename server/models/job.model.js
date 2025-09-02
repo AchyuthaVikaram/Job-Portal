@@ -46,6 +46,22 @@ const jobSchema= new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Application",
     }],
+    status:{
+        type:String,
+        enum:["pending", "approved", "rejected"],
+        default:"approved" // Auto-approve for now, can be changed to "pending" for moderation
+    },
+    moderationReason:{
+        type:String,
+        default:""
+    },
+    moderatedBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+    moderatedAt:{
+        type:Date
+    }
 },{timestamps:true})
 
 const Job= mongoose.model("Job",jobSchema);

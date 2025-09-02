@@ -12,6 +12,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
+import WorkIcon from "@mui/icons-material/Work";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -103,14 +104,20 @@ export default function CompaniesTable({ allCompanies, setAllCompanies }) {
 													horizontal: "left",
 												}}
 											>
-												<Typography sx={{ p: 2 }}>
+												<div className="p-2 space-y-2">
 													<Link to={`/admin/companies/${selectedCompany?._id}`}>
-														<div className="flex justify-center items-center gap-2">
+														<div className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer">
 															<EditIcon sx={{ width: "20px" }} />
 															<span>Edit</span>
 														</div>
 													</Link>
-												</Typography>
+													<Link to={`/admin/jobs?company=${selectedCompany?._id}`}>
+														<div className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded cursor-pointer">
+															<WorkIcon sx={{ width: "20px" }} />
+															<span>View Jobs</span>
+														</div>
+													</Link>
+												</div>
 											</Popover>
 										</TableCell>
 									</TableRow>

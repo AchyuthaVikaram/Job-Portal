@@ -4,8 +4,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { useDispatch } from "react-redux";
-import { setIndustry, setLocation, setSalary } from "../redux/feauters/jobFilter";
+import { useDispatch, useSelector } from "react-redux";
+import { setIndustry, setLocation, setSalary, resetFilters } from "../redux/feauters/jobFilter";
 
 
 const filters = [
@@ -31,56 +31,110 @@ const filters = [
 
 function JobFilter() {
 	const dispatch = useDispatch();
+	const { location, industry, salary } = useSelector((store) => store.jobFilter);
 
 	// Handler to dispatch actions based on the filter type
 	const handleFilterChange = (filterType, value) => {
+		// If the same value is selected again, clear the filter
+		const currentValue = getCurrentFilterValue(filterType);
+		const newValue = currentValue === value ? "" : value;
+		
 		switch (filterType) {
 			case "Location":
-				dispatch(setLocation(value));
+				dispatch(setLocation(newValue));
 				break;
 			case "Industry":
-				dispatch(setIndustry(value));
+				dispatch(setIndustry(newValue));
 				break;
 			case "Salary":
-				dispatch(setSalary(value));
+				dispatch(setSalary(newValue));
 				break;
 			default:
 				break;
 		}
 	};
 
+	// Helper function to get current filter value
+	const getCurrentFilterValue = (filterType) => {
+		switch (filterType) {
+			case "Location":
+				return location;
+			case "Industry":
+				return industry;
+			case "Salary":
+				return salary;
+			default:
+				return "";
+		}
+	};
+
+	const clearAllFilters = () => {
+		dispatch(resetFilters());
+	};
+
 	return (
-		<div className="m-0 p-0">
-			<h1 className="text-xl">Filter Jobs</h1>
-			<hr className="mt-3"></hr>
-			{filters.map((data, idx) => {
-				return (
-					<div key={idx} className="mt-2">
-						<FormControl>
-							<FormLabel id="demo-row-radio-buttons-group-label">
-								<h1>{data.filterType}</h1>
-							</FormLabel>
-							<RadioGroup
-								row
-								aria-labelledby="demo-row-radio-buttons-group-label"
-								name="row-radio-buttons-group"
-								onChange={(e) => handleFilterChange(data.filterType, e.target.value)} // Handle change here
-							>
-								<div className="grid grid-col-2">
-									{data.values.map((val, i) => (
-										<FormControlLabel
-											key={i}
-											value={val}
-											control={<Radio />}
-											label={val}
-										/>
-									))}
-								</div>
-							</RadioGroup>
-						</FormControl>
-					</div>
-				);
-			})}
+		<div>
+			<div className="flex justify-between items-center mb-6">
+				<h2 className="text-xl font-semibold text-gray-900">Filter Jobs</h2>
+				{(location || industry || salary) && (
+					<button 
+						onClick={clearAllFilters}
+						className="text-sm text-purple-600 hover:text-purple-800 font-medium"
+					>
+						Clear All
+					</button>
+				)}
+			</div>
+			
+			<div className="space-y-6">
+				{filters.map((data, idx) => {
+					return (
+						<div key={idx}>
+							<FormControl component="fieldset" className="w-full">
+								<FormLabel component="legend" className="mb-3">
+									<h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+										{data.filterType}
+									</h3>
+								</FormLabel>
+								<RadioGroup
+									aria-labelledby={`${data.filterType}-group-label`}
+									name={`radio-group-${data.filterType}`}
+									value={getCurrentFilterValue(data.filterType)}
+									onChange={(e) => handleFilterChange(data.filterType, e.target.value)}
+								>
+									<div className="space-y-2">
+										{data.values.map((val, i) => (
+											<FormControlLabel
+												key={i}
+												value={val}
+												control={
+													<Radio 
+														sx={{
+															color: '#9ca3af',
+															'&.Mui-checked': {
+																color: '#9333ea',
+															},
+														}}
+													/>
+												}
+												label={
+													<span className="text-sm text-gray-700">
+														{val}
+													</span>
+												}
+												className="mx-0"
+											/>
+										))}
+									</div>
+								</RadioGroup>
+							</FormControl>
+							{idx < filters.length - 1 && (
+								<div className="border-b border-gray-200 mt-6"></div>
+							)}
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 }

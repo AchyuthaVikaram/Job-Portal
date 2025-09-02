@@ -42,4 +42,25 @@ const isAuthenticated = async (req, res, next) => {
     }
 };
 
+// Optional authentication middleware - doesn't block if no token
+const optionalAuth = async (req, res, next) => {
+    try {
+        const token = req.cookies.token;
+        if (token) {
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            if (decoded) {
+                const user = await User.findById(decoded.userId);
+                if (user) {
+                    req.user = user;
+                }
+            }
+        }
+        next(); // Always proceed, regardless of auth status
+    } catch (e) {
+        // Ignore auth errors for optional auth
+        next();
+    }
+};
+
 export default isAuthenticated;
+export { optionalAuth };
